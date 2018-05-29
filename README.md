@@ -5,9 +5,22 @@ some good practices and conventions for the REST API, and overall as well.
 
 ## Getting started
 
-1.  Add the following line to your `composer.json`
+Add the following lines to your `composer.json`
 
-*
+Under 'repositories', add:
+
+```json
+{
+  "type": "git",
+  "url": "https://github.com/redandbluefi/wp-headless-theme.git"
+}
+```
+
+Under 'require', add:
+
+```json
+  "redandbluefi/wp-headless-theme": "dev-master",
+```
 
 ## Credits
 
