@@ -1,0 +1,16 @@
+{
+  "name": "redandbluefi/wp-headless-theme",
+  "type": "wordpress-theme",
+  "description": "Theme for headless WordPress setup",
+  "homepage": "https://github.com/redandbluefi/wp-headless-theme",
+  "keywords": ["wordpress", "theme"],
+  "license": "MIT",
+  "version": "0.1.0",
+  "authors": [
+    {
+      "name": "Hannu Kärkkäinen",
+      "email": "hannu@redandblue.fi",
+      "homepage": "https://www.redandblue.fi"
+    }
+  ]
+}
