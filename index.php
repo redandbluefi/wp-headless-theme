@@ -1,4 +1,5 @@
 <?php
+
 // Redirect individual post and pages to the REST API endpoint
 if (is_single()) {
     header('Location: /wp-json/wp/v2/posts/' . get_post()->ID);
