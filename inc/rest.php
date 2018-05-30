@@ -35,6 +35,7 @@ class BodyBuilder_Rest extends WP_REST_Controller {
 
   public function get_footer(WP_REST_Request $request) {
     $lang = substr($request->get_header('Accept-Language'), 0, 2);
+    $footer = new stdClass();
 
     if ($lang === 'en') {
       $footer->columns = get_field('footer_columns', 'english');
