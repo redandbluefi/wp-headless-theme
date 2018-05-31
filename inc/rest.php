@@ -30,6 +30,11 @@ class BodyBuilder_Rest extends WP_REST_Controller {
     else {
       $menu = wp_get_nav_menu_items('menu');
     }
+    
+    // Add slug to the menu objects
+    foreach ($menu as &$item) {
+      $item->slug = sanitize_title($item->title);
+    }
 
     if (empty($menu)) {
       return new WP_Error('500', __('Menu not found', 'not-found'));
