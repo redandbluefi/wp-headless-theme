@@ -8,6 +8,7 @@ require_once 'inc/preview.php';
 
 // REST API endpoints
 require_once 'inc/rest.php';
+require_once 'inc/rest-pages.php';
 
 // CORS handling
 require_once 'inc/cors.php';
