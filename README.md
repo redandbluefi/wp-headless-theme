@@ -30,9 +30,12 @@ This theme requires the following plugins to work properly:
 * ACF to REST API
 * Polylang
 
-Also, make sure on admin you've configured your Permalinks properly, so the
-REST API is functional. Check: > Permalinks > select e.g. "Day and name"
+Next, you'll also need to make some configurations on the WordPress admin.
+
+* Setup Permalinks: Settings -> Permalinks -> select e.g. "Day and name"
+* Settings -> General: Change 'Site Address' to your Frontend address
+* Settings -> Reading: Your homepage displays -> A static page, and select a page
 
 ## Credits
 
-Based on https://github.com/postlight/headless-wp-starter, big thanks 🙏
+Inspiration drawn from https://github.com/postlight/headless-wp-starter, big thanks 🙏

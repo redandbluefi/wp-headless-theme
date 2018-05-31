@@ -11,6 +11,11 @@ class BodyBuilder_Rest extends WP_REST_Controller {
       'callback' => array($this, 'get_menu')
     ));
 
+    register_rest_route($namespace, '/site', array(
+      'methods' => WP_REST_Server::READABLE,
+      'callback' => array($this, 'get_site')
+    ));
+
     register_rest_route($namespace, '/footer', array(
       'methods' => WP_REST_Server::READABLE,
       'callback' => array($this, 'get_footer')
@@ -31,6 +36,28 @@ class BodyBuilder_Rest extends WP_REST_Controller {
     }
 
     return $menu;
+  }
+
+  public function get_site(WP_REST_Request $request) {
+    $lang = substr($request->get_header('Accept-Language'), 0, 2);
+
+    $site = new stdClass();
+    $site->menu = $this->get_menu($request);
+    $site->footer = $this->get_footer($request);
+
+    if ($lang === 'en') {
+      $site->homepageId = get_option('page_on_front');
+    }
+    else {
+      // TODO We probably need custom ACF to define language-specific frontpage
+      $site->homepageId = 2;
+    }
+
+    if (empty($site)) {
+      return new WP_Error('500', __('Error while loading data for the site', 'not-found'));
+    }
+
+    return $site;
   }
 
   public function get_footer(WP_REST_Request $request) {
