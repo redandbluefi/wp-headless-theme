@@ -30,7 +30,7 @@ class BodyBuilder_Rest extends WP_REST_Controller {
     else {
       $menu = wp_get_nav_menu_items('menu');
     }
-    
+
     // Add slug to the menu objects
     foreach ($menu as &$item) {
       $item->slug = sanitize_title($item->title);
@@ -53,7 +53,8 @@ class BodyBuilder_Rest extends WP_REST_Controller {
     // Get the homepage ID set via settings
     $homepageId = get_option('page_on_front');
     // Then get translated version ID with Polylang, which is the actual homepage
-    $site->homepageId = intval(pll_get_post($homepageId, $lang));
+    $locHomepageId = intval(pll_get_post($homepageId, $lang));
+    $site->homepage = get_page($locHomepageId);
 
     if (empty($site)) {
       return new WP_Error('500', __('Error while loading data for the site', 'not-found'));
