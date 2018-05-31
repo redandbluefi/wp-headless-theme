@@ -45,13 +45,10 @@ class BodyBuilder_Rest extends WP_REST_Controller {
     $site->menu = $this->get_menu($request);
     $site->footer = $this->get_footer($request);
 
-    if ($lang === 'en') {
-      $site->homepageId = get_option('page_on_front');
-    }
-    else {
-      // TODO We probably need custom ACF to define language-specific frontpage
-      $site->homepageId = 2;
-    }
+    // Get the homepage ID set via settings
+    $homepageId = get_option('page_on_front');
+    // Then get translated version ID with Polylang, which is the actual homepage
+    $site->homepageId = intval(pll_get_post($homepageId, $lang));
 
     if (empty($site)) {
       return new WP_Error('500', __('Error while loading data for the site', 'not-found'));
