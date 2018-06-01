@@ -16,6 +16,11 @@ class BodyBuilder_Rest extends WP_REST_Controller {
       'callback' => array($this, 'get_site')
     ));
 
+    register_rest_route($namespace, '/page/(?P<id>\d+)/preview', array(
+      'methods' => WP_REST_Server::READABLE,
+      'callback' => array($this, 'get_page_preview')
+    ));
+
     register_rest_route($namespace, '/footer', array(
       'methods' => WP_REST_Server::READABLE,
       'callback' => array($this, 'get_footer')
@@ -61,6 +66,32 @@ class BodyBuilder_Rest extends WP_REST_Controller {
     }
 
     return $site;
+  }
+
+  public function get_page_preview(WP_REST_Request $request) {
+    $pageId = $request->get_param('id');
+
+    // Nonce needs to be valid in order to preview
+    if (!wp_verify_nonce($request['_wpnonce'], 'wp_rest')) {
+      return new WP_Error('403', __('Invalid nonce', 'invalid-nonce'));
+    }
+
+    $page = get_page($pageId);
+    if (empty($page)) {
+      return new WP_Error('404', __('Page not found', 'not-found'));
+    }
+
+    // Page status should be draft for preview
+    $pageStatus = get_post_status($page->ID);
+    if ($pageStatus != 'draft' && $pageStatus != 'auto-draft') {
+      return new WP_Error('400', __('Page not available for preview', 'preview-unavailable'));
+    }
+
+    // Format the page the same as standard API does
+    $controller = new WP_REST_Posts_Controller('page');
+    $pageView = $controller->prepare_item_for_response($page, $request);
+
+    return $pageView;
   }
 
   public function get_footer(WP_REST_Request $request) {
