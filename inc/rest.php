@@ -72,9 +72,11 @@ class BodyBuilder_Rest extends WP_REST_Controller {
     $pageId = $request->get_param('id');
 
     // Nonce needs to be valid in order to preview
-    if (!wp_verify_nonce($request['_wpnonce'], 'wp_rest')) {
-      return new WP_Error('403', __('Invalid nonce', 'invalid-nonce'));
-    }
+    // TODO Custom token check, because nonce will never work
+    // $nonce = $request->get_param('token');
+    // if (!wp_verify_nonce($nonce, 'bodybuilder_page_preview')) {
+    //   return new WP_Error('403', __('Invalid nonce', 'invalid-nonce'));
+    // }
 
     $page = get_page($pageId);
     if (empty($page)) {
