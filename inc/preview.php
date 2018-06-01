@@ -5,14 +5,15 @@
  */
 function headless_post_preview_link($preview_link, $post) {
   $postStatus = get_post_status($post->ID);
-  $nonce = wp_create_nonce('wp_rest');
+  $lang = pll_current_language('slug');
+  // $nonce = wp_create_nonce('wp_rest');
 
   if ($postStatus != 'draft' && $postStatus != 'auto-draft') {
     // Preview URL for all published posts
-    return home_url()."?preview_id=".$post->ID.'&nonce='.$nonce;
+    return home_url().'/'.$lang.'/'.get_page_uri($post->ID);
   } else {
     // Preview URL for all posts which are in draft
-    return home_url()."?custom_preview=".$post->ID.'&nonce='.$nonce;
+    return home_url().'/'.$lang.'/?preview='.$post->ID;
   }
 }
 
