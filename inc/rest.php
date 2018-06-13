@@ -25,6 +25,11 @@ class BodyBuilder_Rest extends WP_REST_Controller {
       'methods' => WP_REST_Server::READABLE,
       'callback' => array($this, 'get_settings')
     ));
+
+    register_rest_route($namespace, '/categories', array(
+      'methods' => WP_REST_Server::READABLE,
+      'callback' => array($this, 'get_categories')
+    ));
   }
 
   public function get_menu(WP_REST_Request $request) {
@@ -98,6 +103,8 @@ class BodyBuilder_Rest extends WP_REST_Controller {
     return $pageView;
   }
 
+  // TODO Get Post preview
+
   public function get_settings(WP_REST_Request $request) {
     $lang = substr($request->get_header('Accept-Language'), 0, 2);
     $settings = new stdClass();
@@ -116,6 +123,25 @@ class BodyBuilder_Rest extends WP_REST_Controller {
     }
 
     return $settings;
+  }
+
+  public function get_categories(WP_REST_Request $request) {
+    $lang = substr($request->get_header('Accept-Language'), 0, 2);
+
+    $args = array(
+      'hide_empty' => false
+    );
+    $categories = get_categories($args);
+    $localeCategories = array();
+
+    foreach ($categories as $cat) {
+      $locale = pll_get_term_language($cat->term_id, 'slug');
+      if ($locale === $lang) {
+        array_push($localeCategories, $cat);
+      }
+    }
+
+    return $localeCategories;
   }
 }
 
