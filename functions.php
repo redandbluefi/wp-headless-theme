@@ -11,3 +11,6 @@ require_once 'inc/rest.php';
 
 // CORS handling
 require_once 'inc/cors.php';
+
+// TinyMCE config
+require_once 'inc/tinymce.php';
