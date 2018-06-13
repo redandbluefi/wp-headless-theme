@@ -16,9 +16,9 @@ class BodyBuilder_Rest extends WP_REST_Controller {
       'callback' => array($this, 'get_site')
     ));
 
-    register_rest_route($namespace, '/page/(?P<id>\d+)/preview', array(
+    register_rest_route($namespace, '/(?P<type>post|page)/(?P<id>\d+)/preview', array(
       'methods' => WP_REST_Server::READABLE,
-      'callback' => array($this, 'get_page_preview')
+      'callback' => array($this, 'get_preview')
     ));
 
     register_rest_route($namespace, '/settings', array(
@@ -80,8 +80,9 @@ class BodyBuilder_Rest extends WP_REST_Controller {
     return $site;
   }
 
-  public function get_page_preview(WP_REST_Request $request) {
-    $pageId = $request->get_param('id');
+  public function get_preview(WP_REST_Request $request) {
+    $postId = $request->get_param('id');
+    $type = $request->get_param('type');
 
     // Nonce needs to be valid in order to preview
     // TODO Custom token check, because nonce will never work
@@ -90,22 +91,29 @@ class BodyBuilder_Rest extends WP_REST_Controller {
     //   return new WP_Error('403', __('Invalid nonce', 'invalid-nonce'));
     // }
 
-    $page = get_page($pageId);
-    if (empty($page)) {
-      return new WP_Error('404', __('Page not found', 'not-found'));
+    $post = null;
+    if ($type === 'post') {
+      $post = get_post($postId);
+    }
+    else if ($type === 'page') {
+      $post = get_page($postId);
     }
 
-    // Page status should be draft for preview
-    $pageStatus = get_post_status($page->ID);
-    if ($pageStatus != 'draft' && $pageStatus != 'auto-draft') {
-      return new WP_Error('400', __('Page not available for preview', 'preview-unavailable'));
+    if (empty($post)) {
+      return new WP_Error('404', __('Page/Post not found', 'not-found'));
+    }
+
+    // Status should be draft for preview
+    $postStatus = get_post_status($post->ID);
+    if ($postStatus != 'draft' && $postStatus != 'auto-draft') {
+      return new WP_Error('400', __('Not available for preview', 'preview-unavailable'));
     }
 
     // Format the page the same as standard API does
-    $controller = new WP_REST_Posts_Controller('page');
-    $pageView = $controller->prepare_item_for_response($page, $request);
+    $controller = new WP_REST_Posts_Controller($type);
+    $view = $controller->prepare_item_for_response($post, $request);
 
-    return $pageView;
+    return $view;
   }
 
   // TODO Get Post preview
