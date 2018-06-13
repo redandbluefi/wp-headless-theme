@@ -26,6 +26,11 @@ class BodyBuilder_Rest extends WP_REST_Controller {
       'callback' => array($this, 'get_settings')
     ));
 
+    register_rest_route($namespace, '/posts', array(
+      'methods' => WP_REST_Server::READABLE,
+      'callback' => array($this, 'get_posts')
+    ));
+
     register_rest_route($namespace, '/categories', array(
       'methods' => WP_REST_Server::READABLE,
       'callback' => array($this, 'get_categories')
@@ -123,6 +128,16 @@ class BodyBuilder_Rest extends WP_REST_Controller {
     }
 
     return $settings;
+  }
+
+  public function get_posts(WP_REST_Request $request) {
+    $lang = substr($request->get_header('Accept-Language'), 0, 2);
+
+    $args = array(
+      'hide_empty' => false,
+      'lang' => $lang
+    );
+    return get_posts($args);
   }
 
   public function get_categories(WP_REST_Request $request) {
