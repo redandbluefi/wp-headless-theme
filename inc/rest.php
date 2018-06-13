@@ -38,7 +38,9 @@ class BodyBuilder_Rest extends WP_REST_Controller {
 
     // Add slug to the menu objects
     foreach ($menu as &$item) {
-      $item->slug = sanitize_title($item->title);
+      $slug = str_replace(home_url(), '', $item->url);
+      $slug = str_replace('/', '', $slug);
+      $item->slug = $slug;
     }
 
     if (empty($menu)) {
