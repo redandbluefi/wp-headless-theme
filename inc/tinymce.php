@@ -21,6 +21,12 @@ add_filter('tiny_mce_before_init', function($init_array) {
     ],
 
     [
+      "title" => "ingress",
+      "inline" => "p",
+      "classes" => "ingress",
+    ],
+
+    [
       "title" => "Button",
       "classes" => "button",
       "inline" => "a",
