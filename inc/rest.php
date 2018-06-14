@@ -145,7 +145,10 @@ class BodyBuilder_Rest extends WP_REST_Controller {
       'hide_empty' => false,
       'lang' => $lang
     );
-    return get_posts($args);
+    $posts = get_posts($args);
+
+    $recurse = new ACF_To_REST_API_Recursive;
+    return $recurse->get_fields($posts);
   }
 
   public function get_categories(WP_REST_Request $request) {
