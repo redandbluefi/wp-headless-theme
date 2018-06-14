@@ -19,9 +19,5 @@ require_once 'inc/tinymce.php';
 // Enable recursion
 add_action('after_setup_theme', array('ACF_To_REST_API_Recursive', 'init'));
 add_filter('acf/rest_api/recursive/types', function($types) {
-	if (isset($types['post'])) {
-		unset($types['post']);
-	}
-
 	return $types;
 });
