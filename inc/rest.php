@@ -148,7 +148,17 @@ class BodyBuilder_Rest extends WP_REST_Controller {
     $posts = get_posts($args);
 
     $recurse = new ACF_To_REST_API_Recursive;
-    return $recurse->get_fields($posts);
+    $posts = $recurse->get_fields($posts);
+
+    $controller = new WP_REST_Posts_Controller('post');
+    $result = array();
+
+    foreach ($posts as $post) {
+      $postView = $controller->prepare_item_for_response($post, $request);
+      array_push($result, $postView->data);
+    }
+
+    return $result;
   }
 
   public function get_categories(WP_REST_Request $request) {
@@ -167,7 +177,15 @@ class BodyBuilder_Rest extends WP_REST_Controller {
       }
     }
 
-    return $localeCategories;
+    $controller = new WP_REST_Terms_Controller('category');
+    $result = array();
+
+    foreach ($localeCategories as $cat) {
+      $catView = $controller->prepare_item_for_response($cat, $request);
+      array_push($result, $catView->data);
+    }
+
+    return $result;
   }
 }
 
