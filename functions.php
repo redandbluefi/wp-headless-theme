@@ -6,6 +6,9 @@ require_once 'inc/admin.php';
 // Post/page preview link
 require_once 'inc/preview.php';
 
+// wysiwyg config
+require_once 'inc/wysiwyg.php';
+
 // REST API endpoints
 require_once 'inc/rest.php';
 require_once 'inc/acf-to-rest-recursive.php';
