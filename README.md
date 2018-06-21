@@ -24,14 +24,14 @@ Under 'require', add:
 
 # Features / TODOs
 
-[x] Local / Synchronized JSON for ACF
-[x] CORS headers
-[x] Draft preview
-[x] Permalinks
-[x] Endpoints for main WP features (language-specific)
-[ ] ACF codifier
-[ ] Extendable (e.g. Generic endpoints vs Customer-specific endpoints)
-[ ] Initial data & configuration (e.g. for polylang, generic WP settings, etc.)
+* [x] Local / Synchronized JSON for ACF
+* [x] CORS headers
+* [x] Draft preview
+* [x] Permalinks
+* [x] Endpoints for main WP features (language-specific)
+* [ ] ACF codifier
+* [ ] Extendable (e.g. Generic endpoints vs Customer-specific endpoints)
+* [ ] Initial data & configuration (e.g. for polylang, generic WP settings, etc.)
 
 # Theme requirements
 
