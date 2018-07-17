@@ -5,10 +5,15 @@
  */
 function headless_post_preview_link($preview_link, $post) {
   $postStatus = get_post_status($post->ID);
-  $lang = pll_current_language('slug');
   $nonce = wp_create_nonce('bodybuilder_page_preview');
   $type = get_post_type($post);
-  $url = home_url().'/'.$lang;
+  $url = home_url();
+
+  if (function_exists('pll_current_language')) {
+    $lang = pll_current_language('slug');
+    $url = home_url().'/'.$lang;
+  }
+
   if ($type === 'post') {
     $url .= '/post';
   }
