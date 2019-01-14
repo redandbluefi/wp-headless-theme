@@ -10,7 +10,14 @@ add_action('rest_api_init', function() {
     header('Access-Control-Allow-Origin: ' . home_url());
     header('Access-Control-Allow-Methods: GET');
     header('Access-Control-Allow-Credentials: true');
-    
+
     return $value;
   });
 }, 15);
+
+function add_allowed_origins($origins)
+{
+    $origins[] = get_option('home');
+    return $origins;
+}
+add_filter('allowed_http_origins', 'add_allowed_origins');
