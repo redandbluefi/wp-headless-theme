@@ -69,9 +69,12 @@ class BodyBuilder_Rest extends WP_REST_Controller {
 
     // Get the homepage ID set via settings
     $homepageId = get_option('page_on_front');
-    // Then get translated version ID with Polylang, which is the actual homepage
-    $locHomepageId = intval(pll_get_post($homepageId, $lang));
-    $site->homepage = get_page($locHomepageId);
+    if (function_exists('pll_get_post')) {
+      // Then get translated version ID with Polylang, which is the actual homepage
+      $homepageId = intval(pll_get_post($homepageId, $lang));
+    }
+
+    $site->homepage = get_page($homepageId);
 
     if (empty($site)) {
       return new WP_Error('500', __('Error while loading data for the site', 'not-found'));

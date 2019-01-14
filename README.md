@@ -22,7 +22,9 @@ Under 'require', add:
   "redandbluefi/wp-headless-theme": "dev-master",
 ```
 
-> Note: Currently requires Polylang & ACF to REST plugins
+> Note: Currently requires ACF to REST plugin
+
+> Should work with Polylang
 
 ## Credits
 
