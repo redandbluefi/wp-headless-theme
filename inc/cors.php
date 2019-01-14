@@ -18,3 +18,10 @@ add_action(
     },
     15
 );
+
+function add_allowed_origins($origins)
+{
+    $origins[] = get_option('home');
+    return $origins;
+}
+add_filter('allowed_http_origins', 'add_allowed_origins');
