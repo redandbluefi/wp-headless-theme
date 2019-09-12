@@ -25,3 +25,9 @@ function add_allowed_origins($origins)
     return $origins;
 }
 add_filter('allowed_http_origins', 'add_allowed_origins');
+
+add_action('wplf_pre_validate_submission', function() {
+  $origin = get_option('home');
+  header("Access-Control-Allow-Origin: $origin");
+  header("Access-Control-Allow-Credentials: true");
+});
